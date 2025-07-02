@@ -38,6 +38,7 @@ HyprArch-Installer/
 │   ├── setup-blackarch.sh    # Instalação do BlackArch
 │   ├── setup-hyprland.sh     # Instalação do Hyprland
 │   ├── theme-manager.sh      # Gerenciador de temas
+│   ├── pacman-editor.sh      # Editor seguro do pacman.conf
 │   └── README.md             # Documentação dos scripts
 │
 ├── themes/

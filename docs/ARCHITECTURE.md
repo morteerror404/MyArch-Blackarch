@@ -52,5 +52,3 @@ graph TD
 - `arch-install-scripts` (base)
 - `git` (para temas)
 - `curl` (downloads)
-```
-

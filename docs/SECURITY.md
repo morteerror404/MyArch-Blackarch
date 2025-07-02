@@ -54,8 +54,3 @@ bind = $mainMod, L, exec, swaylock
 ⚠️ **Configurações Padrão**
 - Altere todas as senhas padrão
 - Desative serviços desnecessários
-
-## Reportando Vulnerabilidades
-Encontrou um problema? Abra uma issue em:
-[github.com/seu-repo/security](https://github.com/seu-repo/security)
-```

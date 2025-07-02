@@ -70,7 +70,8 @@ HyprArch-Installer/
 3. Adicione novos arquivos nos diretórios corretos
 4. Sempre atualize os READMEs ao fazer mudanças
 
-Esta organização permite:
+#### Esta organização permite:
+
 ✔️ Manter o projeto bem documentado  
 ✔️ Facilitar contribuições  
 ✔️ Manter configurações modulares  
@@ -92,7 +93,7 @@ Esta organização permite:
 
 1. **Baixe o script**:  
    ```sh
-   curl -O https://raw.githubusercontent.com/seu-usuario/HyprArch-Installer/main/hyprarch-installer.sh
+   curl -O https://raw.githubusercontent.com/morteerror404/MyArch-Blackarch/HyprArch-Installer/hyprarch-installer.sh
    chmod +x hyprarch-installer.sh
    ```
 

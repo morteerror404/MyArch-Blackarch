@@ -151,7 +151,7 @@ HyprArch-Installer/
 2. **Abra uma issue** para sugerir melhorias  
 3. **Adicione temas/tools** via PR  
 
-🔗 **Repositório**: [github.com/seu-usuario/HyprArch-Installer](https://github.com/seu-usuario/HyprArch-Installer)  
+🔗 **Repositório**: [github.com/morteerror404/MyArch-Blackarch](https://github.com/morteerror404/MyArch-Blackarch)  
 
 ---
 

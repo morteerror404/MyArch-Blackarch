@@ -2,7 +2,7 @@
 ```
 HyprArch-Installer/
 │
-├── 📄 README.md                      # Documentação principal (ATUALIZADO)
+├── 📄 README.md                      # Documentação principal 
 ├── ⚙️ hyprarch-installer.sh          # Script principal de instalação
 │
 ├── 📁 configs/                       # Configurações padrão
@@ -21,9 +21,9 @@ HyprArch-Installer/
 │       └── 📄 README.md              # Documentação
 │
 ├── 📁 scripts/
-│   ├── ⚡ setup-hyprland.sh           # Instalação do Hyprland (CORRIGIDO)
+│   ├── ⚡ setup-hyprland.sh          # Instalação do Hyprland 
 │   ├── 🔒 setup-blackarch.sh         # Ferramentas de segurança
-│   ├── 🎨 theme-manager.sh           # Gerenciador de temas (COM ROLLBACK)
+│   ├── 🎨 theme-manager.sh           # Gerenciador de temas 
 │   └── 📦 pacman-editor.sh           # Editor de configuração
 │
 ├── 📁 tools/

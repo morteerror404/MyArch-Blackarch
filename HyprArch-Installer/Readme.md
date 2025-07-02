@@ -81,17 +81,3 @@ O script gera log completo em:
 
 ---
 ![Arch Linux Logo](https://archlinux.org/static/logos/archlinux-logo-dark-1200dpi.b42bd35d5916.png)
-
-### Destaques:
-
-1. **Visual profissional** com logos e formatação Markdown
-2. **Instruções claras** em português
-3. **Seção de pós-instalação** importante
-4. **Links úteis** para referência
-5. **Avisos de segurança** destacados
-
-Você pode personalizar:
-- Links do repositório
-- Lista de pacotes
-- Imagens/logo
-- Informações de contato

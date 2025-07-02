@@ -1,170 +1,100 @@
-# **HyprArch Installer**  
-
-**Um script completo para instalar Arch Linux + Hyprland + Ferramentas do BlackArch**  
-
-> **Objetivo**: Automatizar a instalação de um sistema **Arch Linux** com o compositor **Hyprland** (Wayland) e as melhores ferramentas de **pentest e segurança** do **BlackArch**, além de temas e configurações prontas.  
-
----
-
-## **🗺️ Mapa do Repositório**  
-
+### 📂 Estrutura do Projeto
 ```
 HyprArch-Installer/
 │
-├── README.md                 # Documentação principal do projeto
-├── hyprarch-installer.sh     # Script principal de instalação
+├── 📄 README.md                      # Documentação principal (ATUALIZADO)
+├── ⚙️ hyprarch-installer.sh          # Script principal de instalação
 │
-├── docs/
-│   ├── NETWORK.md            # Explica como configurar a rede na instalação
-│   ├── ARCHITECTURE.md       # Explica a estrutura do projeto
-│   └── SECURITY.md           # Boas práticas de segurança
-│
-├── configs/
-│   ├── hypr/                 # Configurações do Hyprland
-│   │   ├── hyprland.conf
-│   │   ├── exec.conf
-│   │   └── README.md         # Como customizar o Hyprland
+├── 📁 configs/                       # Configurações padrão
+│   ├── 🖼️ hypr/
+│   │   ├── 📄 hyprland.conf          # Configuração do Hyprland
+│   │   ├── 📄 exec.conf              # Programas iniciais
+│   │   └── 📄 README.md              # Documentação
 │   │
-│   ├── waybar/               # Configurações da Waybar
-│   │   ├── config.jsonc
-│   │   ├── style.css
-│   │   └── README.md         # Guia de theming da barra
+│   ├── 📊 waybar/
+│   │   ├── 📄 config.jsonc           # Configuração da barra
+│   │   ├── 🎨 style.css              # Estilos
+│   │   └── 📄 README.md              # Guia
 │   │
-│   ├── rofi/                 # Configurações do Rofi
-│   │   ├── config.rasi
-│   │   └── README.md         # Como modificar menus
-│   │
-│   └── README.md             
+│   └── 🚀 rofi/
+│       ├── 📄 config.rasi            # Menu de aplicativos
+│       └── 📄 README.md              # Documentação
 │
-├── scripts/
-│   ├── setup-blackarch.sh    # Instalação do BlackArch
-│   ├── setup-hyprland.sh     # Instalação do Hyprland
-│   ├── theme-manager.sh      # Gerenciador de temas
-│   ├── pacman-editor.sh      # Editor seguro do pacman.conf
-│   └── README.md             # Documentação dos scripts
+├── 📁 scripts/
+│   ├── ⚡ setup-hyprland.sh           # Instalação do Hyprland (CORRIGIDO)
+│   ├── 🔒 setup-blackarch.sh         # Ferramentas de segurança
+│   ├── 🎨 theme-manager.sh           # Gerenciador de temas (COM ROLLBACK)
+│   └── 📦 pacman-editor.sh           # Editor de configuração
 │
-├── themes/
-│   ├── minimalist/           # Tema minimalista
-│   │   ├── hypr/
-│   │   ├── waybar/
-│   │   └── README.md         # Descrição do tema
-│   │
-│   ├── hacker/               # Tema estilo hacker
-│   │   ├── hypr/
-│   │   ├── waybar/
-│   │   └── README.md         # Descrição do tema
-│   │
-│   └── README.md             # Como adicionar novos temas
+├── 📁 tools/
+│   ├── 🌐 network-scanner.sh         # Diagnóstico de rede
+│   └── 📈 system-monitor.sh          # Monitor de sistema
 │
-├── tools/
-│   ├── network-scanner.sh    # Scanner de rede
-│   ├── system-monitor.sh     # Monitor de sistema
-│   └── README.md             # Como usar as ferramentas
-│
-└── backups/
-    ├── restore-backup.sh     # Script de restauração
-    └── README.md             # Política de backups
-
+└── 📁 docs/
+    ├── 📄 ARCHITECTURE.md            # Fluxo do sistema
+    ├── 📄 SECURITY.md                # Melhores práticas
+    └── 📄 NETWORK.md                 # Configuração de rede
 ```
 
+### 🔄 Fluxo de Trabalho Corrigido
 
-### Como Usar Esta Estrutura:
-1. Clone o repositório
-2. Leia os READMEs relevantes antes de modificar
-3. Adicione novos arquivos nos diretórios corretos
-4. Sempre atualize os READMEs ao fazer mudanças
-
-#### Esta organização permite:
-
-✔️ Manter o projeto bem documentado  
-✔️ Facilitar contribuições  
-✔️ Manter configurações modulares  
-✔️ Permitir fácil restauração
-
-## **📦 O que o script inclui?**  
-
-✅ **Instalação limpa do Arch Linux** (base + kernels recomendados)  
-✅ **Hyprland + Waybar + Rofi** configurados  
-✅ **Ferramentas do BlackArch** (categorizadas por tipo)  
-✅ **Temas pré-configurados** (com suporte a vários repositórios)  
-✅ **Gerenciador de pacotes** (`yay` + `paru` + `pacman`)  
-✅ **Otimizações de sistema** (swapfile, journald, etc.)  
-✅ **Verificação de repositórios** (evita projetos descontinuados)  
-
----
-
-## **📥 Instalação**  
-
-1. **Baixe o script**:  
-   ```sh
-   curl -O https://raw.githubusercontent.com/morteerror404/MyArch-Blackarch/HyprArch-Installer/hyprarch-installer.sh
-   chmod +x hyprarch-installer.sh
+1. **Instalação**:
+   ```bash
+   curl -L https://raw.githubusercontent.com/seu-repo/main/hyprarch-installer.sh | bash
    ```
 
-2. **Execute**:  
-   ```sh
-   ./hyprarch-installer.sh
+2. **Gerenciamento**:
+   - Configurações: `./scripts/theme-manager.sh` (novo sistema de rollback)
+   - Atualização: `./scripts/pacman-editor.sh --update`
+
+3. **Backup Automático**:
+   - Armazenado em: `~/.local/share/hyprarch-backups/`
+   - Formato: `backup-YYYYMMDD_HHMMSS.tar.gz`
+
+### ✨ Melhorias Implementadas
+
+1. **No `setup-hyprland.sh`**:
+   ```bash
+   # Verificação de GPU
+   if lspci | grep -qi "nvidia"; then
+       pacman -S --noconfirm nvidia nvidia-utils
+   fi
    ```
 
----
+2. **No `theme-manager.sh`**:
+   ```bash
+   # Sistema de rollback
+   restore_theme() {
+       tar -xzf "$BACKUP_DIR/last-theme.tar.gz" -C "$CONFIG_DIR"
+   }
+   ```
 
-## **⚙️ Opções do Script**  
+3. **Padronização**:
+   - Todos os scripts agora incluem:
+     ```bash
+     set -euo pipefail
+     trap "echo 'Erro na linha $LINENO'" ERR
+     ```
 
-| Comando               | Descrição                                  |
-|-----------------------|-------------------------------------------|
-| `--minimal`           | Instala apenas o básico (Arch + Hyprland) |
-| `--blackarch`         | Adiciona ferramentas do BlackArch         |
-| `--themes`            | Instala temas pré-configurados            |
-| `--security`          | Configura hardening básico                |
-| `--help`              | Mostra esta ajuda                         |
+### 📌 Próximos Passos
 
----
+1. Testar em ambiente virtual:
+   ```bash
+   qemu-system-x86_64 -m 8G -enable-kvm -cdrom archlinux.iso
+   ```
 
-## **🎨 Temas Incluídos**  
+2. Documentar casos de uso comum:
+   ```bash
+   nano docs/TROUBLESHOOTING.md
+   ```
 
-### **Temas Completos**  
-- [JaKooLit/Arch-Hyprland](https://github.com/JaKooLit/Arch-Hyprland)  
-- [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland)  
-- [1amSimp1e/dots](https://github.com/1amSimp1e/dots)  
+3. Adicionar validação de checksum:
+   ```bash
+   sha256sum -c install.sha256
+   ```
 
-### **Barras e Paineis**  
-- [JakeStanger/ironbar](https://github.com/JakeStanger/ironbar)  
-- [Jas-SinghFSU/HyprPanel](https://github.com/Jas-SinghFSU/HyprPanel)  
+> **Nota**: Todos os arquivos README.md foram revisados e padronizados com:
+> - Guias de configuração
+> - Exemplos de uso
+> - Links para documentação oficial
 
-### **Ferramentas Úteis**  
-- [hyprland-community/awesome-hyprland](https://github.com/hyprland-community/awesome-hyprland)  
-- [hyprwm/hyprland-plugins](https://github.com/hyprwm/hyprland-plugins)  
-
----
-
-## **🔧 Ferramentas do BlackArch Incluídas**  
-
-| Categoria       | Exemplos                          |
-|----------------|-----------------------------------|
-| **Anti-Forensic** | `wipe`, `secure-delete`          |
-| **Pentest**      | `metasploit`, `sqlmap`           |
-| **Análise**      | `wireshark`, `tcpdump`           |
-| **Exploração**   | `exploitdb`, `searchsploit`      |
-| **Redes**        | `nmap`, `responder`              |
-
----
-
-## **📌 Como Contribuir?**  
-
-1. **Dê uma ⭐ no GitHub**  
-2. **Abra uma issue** para sugerir melhorias  
-3. **Adicione temas/tools** via PR  
-
-🔗 **Repositório**: [github.com/morteerror404/MyArch-Blackarch](https://github.com/morteerror404/MyArch-Blackarch)  
-
----
-
-## **⚠️ Avisos**  
-
-- **Só use em sistemas que você possui**  
-- **Backup seus dados antes**  
-- **BlackArch é para fins éticos**  
-
----
-
-**Feito com ❤️ pela comunidade Arch + Hyprland + BlackArch** 🚀

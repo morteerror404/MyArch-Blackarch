@@ -1,0 +1,8 @@
+configuration {
+    modi: "drun,run";
+    font: "FiraCode 12";
+    show-icons: true;
+    icon-theme: "Papirus";
+}
+
+@theme "Arc-Dark"

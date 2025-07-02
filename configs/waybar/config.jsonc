@@ -1,0 +1,15 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "modules-left": ["clock", "cpu", "memory"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["network", "pulseaudio", "battery"],
+    
+    "clock": {
+        "format": " {:%H:%M}"
+    },
+    "cpu": {
+        "format": " {usage}%"
+    }
+}

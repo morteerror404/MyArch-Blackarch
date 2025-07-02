@@ -30,9 +30,11 @@ HyprArch-Installer/
 │   │   ├── style.css
 │   │   └── README.md         # Guia de theming da barra
 │   │
-│   └── rofi/                 # Configurações do Rofi
-│       ├── config.rasi
-│       └── README.md         # Como modificar menus
+│   ├── rofi/                 # Configurações do Rofi
+│   │   ├── config.rasi
+│   │   └── README.md         # Como modificar menus
+│   │
+│   └── README.md             
 │
 ├── scripts/
 │   ├── setup-blackarch.sh    # Instalação do BlackArch

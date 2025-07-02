@@ -15,6 +15,7 @@ HyprArch-Installer/
 ├── hyprarch-installer.sh     # Script principal de instalação
 │
 ├── docs/
+│   ├── NETWORK.md            # Explica como configurar a rede na instalação
 │   ├── ARCHITECTURE.md       # Explica a estrutura do projeto
 │   └── SECURITY.md           # Boas práticas de segurança
 │

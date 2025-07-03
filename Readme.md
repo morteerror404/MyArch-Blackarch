@@ -2,7 +2,7 @@
 ```
 HyprArch-Installer/
 │
-├── 📄 README.md                      # Documentação principal 
+├── 📄 README.md                      # Documentação principal (ATUALIZADO)
 ├── ⚙️ hyprarch-installer.sh          # Script principal de instalação
 │
 ├── 📁 configs/                       # Configurações padrão

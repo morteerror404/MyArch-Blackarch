@@ -270,6 +270,21 @@ station wlan0 get-networks
 ```  
 ```bash
 station wlan0 connect 
+```
+```bash
+sudo ip link set enp2s0 up
+```  
+```bash  
+sudo nano /etc/netctl/INTERFACE
+```  
+```bash
+sudo nano /etc/NetworkManager/NetworkManager.conf
+```  
+```bash
+Description='Minha conexão'
+Interface=enp2s0 ou wlan0
+Connection=ethernet
+IP=dhcp
 ```  
 
 Instale utilitários úteis:  

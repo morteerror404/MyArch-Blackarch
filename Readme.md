@@ -249,7 +249,36 @@ reboot
 
 ## 🚀 **Pós-instalação**  
 
-### **1. Configurações Básicas**  
+### **1. Configurações de Rede**  
+
+Atualize o sistema:  
+
+```bash
+sudo systemctl restart NetworkManager
+```  
+```bash
+sudo systemctl start iwd
+```  
+```bash
+sudo iwctl
+```  
+```bash
+station wlan0 scan
+```  
+```bash
+station wlan0 get-networks
+```  
+```bash
+station wlan0 connect 
+```  
+
+Instale utilitários úteis:  
+```bash
+sudo pacman -S neofetch htop git wget curl zsh
+```  
+
+### **2. Configurações Básicas**   
+
 Atualize o sistema:  
 ```bash
 sudo pacman -Syu
@@ -258,13 +287,6 @@ sudo pacman -Syu
 Instale utilitários úteis:  
 ```bash
 sudo pacman -S neofetch htop git wget curl zsh
-```  
-
-### **2. Interface Gráfica (Opcional)**  
-Para instalar um desktop (ex: **GNOME**):  
-```bash
-sudo pacman -S gnome gdm
-sudo systemctl enable gdm
 ```  
 
 ### **3. Drivers (se necessário)**  

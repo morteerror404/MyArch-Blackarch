@@ -28,6 +28,7 @@ HyprArch-Installer/
 │
 ├── 📁 tools/
 │   ├── 🌐 network-scanner.sh         # Diagnóstico de rede
+│   ├── 📈 autoservice.sh             # Diagnóstico de serviços
 │   └── 📈 system-monitor.sh          # Monitor de sistema
 │
 └── 📁 docs/
@@ -40,7 +41,7 @@ HyprArch-Installer/
 
 1. **Instalação**:
    ```bash
-   curl -L https://raw.githubusercontent.com/seu-repo/main/hyprarch-installer.sh | bash
+   curl -L https://raw.githubusercontent.com/morteerror404/MyArch-Blackarch/HyprArch-Installer/hyprarch-installer.sh | bash
    ```
 
 2. **Gerenciamento**:

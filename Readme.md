@@ -121,9 +121,7 @@ Este guia ensina a instalar o Arch Linux de três formas:
 3. **Inicie o PC** pelo pendrive (configure a BIOS/UEFI).  
 
 ---
-
-## 🖥️ **Instalação Manual**  
-
+ 
 ### **1. Conexão à Internet (Wi-Fi)**  
 Se estiver usando Wi-Fi, use o `iwctl`:  
 ```bash
@@ -136,9 +134,30 @@ exit                            # Sai do iwd
 Verifique a conexão:  
 ```bash
 ping -c 3 google.com
+```
+
+---
+
+# 🤖 **Instalação Automática (archinstall)**  
+Se preferir um instalador automático:  
+```bash
+archinstall
+```  
+Siga o menu interativo para configurar:  
+- **Idioma**: `pt_BR`  
+- **Teclado**: `br-abnt2`  
+- **Disco**: Selecione o modo de particionamento (UEFI recomendado)  
+- **Usuário**: Crie um com permissões de `sudo`  
+- **Pacotes**: Marque `networkmanager`, `grub`, `sudo`  
+
+Ao final, reinicie:  
+```bash
+reboot
 ```  
 
-### **2. Particionamento do Disco**  
+## 🖥️ **Instalação Manual** 
+
+### **1. Particionamento do Disco**  
 Liste os discos:  
 ```bash
 fdisk -l
@@ -160,7 +179,7 @@ swapon /dev/sdX2               # Ativa swap
 mkfs.ext4 /dev/sdX3            # Formata a partição root
 ```  
 
-### **3. Instalação do Sistema**  
+### **2. Instalação do Sistema**  
 Monte as partições:  
 ```bash
 mount /dev/sdX3 /mnt           # Monta a root
@@ -173,7 +192,7 @@ Instale os pacotes básicos:
 pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr sudo nano
 ```  
 
-### **4. Configuração Básica**  
+### **3. Configuração Básica**  
 Gere o `fstab` (arquivo de partições):  
 ```bash
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -223,25 +242,6 @@ Saia do `chroot` e reinicie:
 ```bash
 exit
 umount -R /mnt
-reboot
-```  
-
----
-
-## 🤖 **Instalação Automática (archinstall)**  
-Se preferir um instalador automático:  
-```bash
-archinstall
-```  
-Siga o menu interativo para configurar:  
-- **Idioma**: `pt_BR`  
-- **Teclado**: `br-abnt2`  
-- **Disco**: Selecione o modo de particionamento (UEFI recomendado)  
-- **Usuário**: Crie um com permissões de `sudo`  
-- **Pacotes**: Marque `networkmanager`, `grub`, `sudo`  
-
-Ao final, reinicie:  
-```bash
 reboot
 ```  
 

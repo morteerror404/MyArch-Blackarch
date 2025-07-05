@@ -148,7 +148,7 @@ Siga o menu interativo para configurar:
 - **Teclado**: `br-abnt2`  
 - **Disco**: Selecione o modo de particionamento (UEFI recomendado)  
 - **Usuário**: Crie um com permissões de `sudo`  
-- **Pacotes**: Marque `networkmanager`, `grub`, `sudo`  
+- **Pacotes**: Marque `networkmanager`, `firefox` e etc.  
 
 Ao final, reinicie:  
 ```bash

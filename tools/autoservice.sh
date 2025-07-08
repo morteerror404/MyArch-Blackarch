@@ -14,9 +14,21 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+# Verifica se SUDO_USER está definido
+if [ -z "$SUDO_USER" ]; then
+    echo -e "${RED}Erro: SUDO_USER não definido. Execute com sudo!${NC}"
+    exit 1
+fi
+
 # Função para resolver problemas de áudio
 fix_audio_issues() {
     echo -e "${CYAN}\n🎧 Resolvendo problemas de áudio...${NC}"
+    
+    # Verifica se pactl está instalado
+    if ! command -v pactl &>/dev/null; then
+        echo -e "${RED}Erro: pactl não encontrado. Instale o pacote 'pulseaudio' ou 'pipewire-pulse'.${NC}"
+        return 1
+    fi
     
     # Verifica se o PipeWire está ativo
     if systemctl --user is-active pipewire &>/dev/null; then
@@ -53,8 +65,14 @@ resolve_service_conflicts() {
     local SERVICE="$1"
     echo -e "${CYAN}\n⚔️ Verificando conflitos para $SERVICE...${NC}"
     
+    # Valida nome do serviço
+    if [[ ! "$SERVICE" =~ ^[a-zA-Z0-9_-]+(\.service)?$ ]]; then
+        echo -e "${RED}Erro: Nome de serviço inválido!${NC}"
+        return 1
+    fi
+    
     # Obtém serviços que podem estar em conflito
-    CONFLICTS=$(systemctl list-dependencies --reverse $SERVICE 2>/dev/null | grep -v "●")
+    CONFLICTS=$(systemctl list-dependencies --reverse "$SERVICE" 2>/dev/null | grep -v "●")
     
     if [ -n "$CONFLICTS" ]; then
         echo -e "${YELLOW}⚠️ Possíveis serviços conflitantes:${NC}"
@@ -77,6 +95,74 @@ resolve_service_conflicts() {
         systemctl restart "$SERVICE"
     else
         echo -e "${GREEN}✅ Nenhum conflito detectado${NC}"
+    fi
+}
+
+# Função para criar serviço de keepalive durante SSH
+setup_ssh_keepalive() {
+    echo -e "${CYAN}\n🔄 Configurando serviço para manter o PC ativo durante sessões SSH...${NC}"
+    
+    # Verifica dependências
+    if ! command -v ss &>/dev/null; then
+        echo -e "${RED}Erro: 'ss' não encontrado. Instale o pacote 'iproute2'.${NC}"
+        return 1
+    fi
+    if ! command -v systemd-inhibit &>/dev/null; then
+        echo -e "${RED}Erro: 'systemd-inhibit' não encontrado. Verifique a instalação do systemd.${NC}"
+        return 1
+    fi
+    
+    # Cria script de verificação
+    cat > /usr/local/bin/ssh-keepalive.sh << 'EOF'
+#!/bin/bash
+# Script para manter o PC ativo durante sessões SSH
+
+while true; do
+    # Verifica se há conexões SSH (porto 22)
+    if ss -tn state established '( sport = :22 )' | grep -q .; then
+        # Mantém o sistema ativo usando systemd-inhibit
+        systemd-inhibit --what=idle:sleep:shutdown --who="SSH Keepalive" --why="Active SSH session" sleep infinity &
+        INHIBIT_PID=$!
+    else
+        # Se não houver SSH, mata o inibidor, se existir
+        if [ -n "$INHIBIT_PID" ]; then
+            kill "$INHIBIT_PID" 2>/dev/null
+            unset INHIBIT_PID
+        fi
+    fi
+    # Aguarda 10 segundos antes da próxima verificação
+    sleep 10
+done
+EOF
+    
+    chmod +x /usr/local/bin/ssh-keepalive.sh
+    
+    # Cria serviço systemd
+    cat > /etc/systemd/system/ssh-keepalive.service << 'EOF'
+[Unit]
+Description=Keep system active during SSH sessions
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/ssh-keepalive.sh
+Restart=always
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    
+    # Habilita e inicia o serviço
+    systemctl daemon-reload
+    systemctl enable ssh-keepalive.service
+    systemctl start ssh-keepalive.service
+    
+    if systemctl is-active --quiet ssh-keepalive.service; then
+        echo -e "${GREEN}✅ Serviço ssh-keepalive configurado e ativo!${NC}"
+    else
+        echo -e "${RED}Erro: Falha ao iniciar o serviço ssh-keepalive. Verifique com 'systemctl status ssh-keepalive.service'.${NC}"
+        return 1
     fi
 }
 
@@ -165,11 +251,15 @@ case "$1" in
     --fix-audio)
         fix_audio_issues
         ;;
+    --setup-ssh-keepalive)
+        setup_ssh_keepalive
+        ;;
     *)
         echo -e "${BLUE}Uso:${NC}"
-        echo -e "  $0 --repair <serviço>  # Repara um serviço com problemas"
-        echo -e "  $0 --check <serviço>   # Verifica o status do serviço"
-        echo -e "  $0 --fix-audio        # Corrige problemas de áudio"
+        echo -e "  $0 --repair <serviço>        # Repara um serviço com problemas"
+        echo -e "  $0 --check <serviço>         # Verifica o status do serviço"
+        echo -e "  $0 --fix-audio              # Corrige problemas de áudio"
+        echo -e "  $0 --setup-ssh-keepalive    # Configura serviço para manter PC ativo durante SSH"
         exit 1
         ;;
 esac

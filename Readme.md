@@ -1,40 +1,52 @@
 ### 📂 Estrutura do Projeto
 ```
-HyprArch-Installer/
+MyArch-BlackArch/
 │
-├── 📄 README.md                      # Documentação principal (ATUALIZADO)
-├── ⚙️ hyprarch-installer.sh          # Script principal de instalação
+├── 📁 backups/                      # Backups dos arquivos de configuração 
+│   ├── ⚙️ restore-backup.sh         # Restaura backup das configs 
+│   └── 📄 README.md                 # Manual de backup/restauração 
 │
-├── 📁 configs/                       # Configurações padrão
-│   ├── 🖼️ hypr/
-│   │   ├── 📄 hyprland.conf          # Configuração do Hyprland
-│   │   ├── 📄 exec.conf              # Programas iniciais
-│   │   └── 📄 README.md              # Documentação
+├── 📁 configs/                      # Configurações padrão 
+│   ├── 🖼️ hypr/                     # Configurações do Hyprland 
+│   │   ├── 📄 exec.conf             # Programas iniciais 
+│   │   ├── 📄 hyprland.conf         # Configuração principal 
+│   │   └── 📄 README.md             # Documentação 
 │   │
-│   ├── 📊 waybar/
-│   │   ├── 📄 config.jsonc           # Configuração da barra
-│   │   ├── 🎨 style.css              # Estilos
-│   │   └── 📄 README.md              # Guia
+│   ├── 🚀 rofi/                     # Configs do Rofi 
+│   │   ├── 📄 config.rasi           # Menu de apps 
+│   │   └── 📄 README.md             # Doc 
 │   │
-│   └── 🚀 rofi/
-│       ├── 📄 config.rasi            # Menu de aplicativos
-│       └── 📄 README.md              # Documentação
+│   └── 📊 waybar/                   # Configs da Waybar 
+│       ├── 📄 config.jsonc          # Config da barra 
+│       ├── 🎨 style.css             # Estilos 
+│       └── 📄 README.md             # Guia 
 │
-├── 📁 scripts/
-│   ├── ⚡ setup-hyprland.sh          # Instalação do Hyprland 
-│   ├── 🔒 setup-blackarch.sh         # Ferramentas de segurança
-│   ├── 🎨 theme-manager.sh           # Gerenciador de temas 
-│   └── 📦 pacman-editor.sh           # Editor de configuração
+├── 📁 docs/                         # Documentação 
+│   ├── 📄 ARCHITECTURE.md           # Fluxo do sistema 
+│   ├── 📄 NETWORK.md                # Config de rede 
+│   └── 📄 SECURITY.md               # Melhores práticas 
 │
-├── 📁 tools/
-│   ├── 🌐 network-scanner.sh         # Diagnóstico de rede
-│   ├── 📈 autoservice.sh             # Diagnóstico de serviços
-│   └── 📈 system-monitor.sh          # Monitor de sistema
+├── 📁 HyprArch-Installer/           # Subpasta do instalador 
+│   ├── ⚙️ hyprarch-installer.sh     # Script principal 
+│   └── 📄 README.md                 # Doc do instalador 
 │
-└── 📁 docs/
-    ├── 📄 ARCHITECTURE.md            # Fluxo do sistema
-    ├── 📄 SECURITY.md                # Melhores práticas
-    └── 📄 NETWORK.md                 # Configuração de rede
+├── 📁 scripts/                      # Scripts 
+│   ├── 📦 pacman-editor.sh          # Editor do pacman 
+│   ├── 🔒 setup-blackarch.sh        # Ferramentas de segurança 
+│   ├── ⚡ setup-hyprland.sh         # Instalação do Hyprland 
+│   ├── 🎨 theme-manager.sh          # Gerenciador de temas 
+│   └── 📄 README.md                 # Documentação 
+│
+├── 📁 tools/                        # Ferramentas 
+│   ├── 📈 autoservice.sh            # Diagnóstico de serviços 
+│   ├── 🌐 network-scanner.sh        # Scanner de rede 
+│   ├── 📈 system-monitor.sh         # Monitor do sistema 
+│   └── 📄 README.md                 # Documentação 
+│
+├── ⚙️ hyprarch-installer.sh         # Script principal de instalação 
+├── ⚙️ install-configs.sh            # Instala configs personalizadas 
+├── ⚙️ uninstall-configs.sh          # Remove configurações 
+└── ⚙️ update-configs.sh             # Atualiza configurações 
 ```
 
 ### 🔄 Fluxo de Trabalho Corrigido

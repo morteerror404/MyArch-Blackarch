@@ -26,6 +26,9 @@ BASE_DEPS=(
     wl-clipboard
     kitty
     xdg-desktop-portal-hyprland
+    curl
+    jq
+    git
 )
 
 # Additional recommended packages
@@ -37,12 +40,28 @@ EXTRA_DEPS=(
     qt5-wayland
     qt6-wayland
 )
+
+# Check for internet connectivity
+check_connectivity() {
+    echo -e "${YELLOW}[+] Checking internet connectivity...${NC}"
+    ping -c 1 archlinux.org >/dev/null 2>&1 || {
+        echo -e "${RED}Error: No internet connection detected${NC}" >&2
+        exit 1
+    }
+}
+
 # Configurar NVIDIA se detectado
-if lspci | grep -qi nvidia; then
-    echo -e "${YELLOW}[+] Configurando NVIDIA...${NC}"
-    pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
-    echo "options nvidia-drm modeset=1" > /etc/modprobe.d/nvidia.conf
-fi
+configure_nvidia() {
+    if lspci | grep -qi nvidia; then
+        echo -e "${YELLOW}[+] Configurando NVIDIA...${NC}"
+        pacman -S --noconfirm nvidia nvidia-utils nvidia-settings || {
+            echo -e "${RED}Failed to install NVIDIA packages${NC}" >&2
+            exit 1
+        }
+        echo "options nvidia-drm modeset=1" > /etc/modprobe.d/nvidia.conf
+    fi
+}
+
 # Install function with error handling
 install_packages() {
     echo -e "${YELLOW}[+] Updating package databases...${NC}"
@@ -69,6 +88,7 @@ setup_configs() {
     
     # Create config directory if not exists
     mkdir -p /etc/skel/.config/{hypr,waybar,rofi}
+    chmod -R 755 /etc/skel/.config
 
     # Hyprland config
     if [ ! -f /etc/skel/.config/hypr/hyprland.conf ]; then
@@ -110,20 +130,100 @@ EOF
     # Waybar basic config
     if [ ! -f /etc/skel/.config/waybar/config ]; then
         echo -e "${GREEN}Creating default Waybar config...${NC}"
-        cp /usr/share/waybar/config /etc/skel/.config/waybar/
+        if [ -f /usr/share/waybar/config ]; then
+            cp /usr/share/waybar/config /etc/skel/.config/waybar/
+        else
+            echo -e "${YELLOW}Warning: Default Waybar config not found${NC}"
+        fi
     fi
+}
+
+# Fetch popular Hyprland themes from GitHub
+fetch_themes() {
+    echo -e "${YELLOW}[+] Fetching popular Hyprland themes from GitHub...${NC}"
+    
+    # Search GitHub for Hyprland themes
+    local query="hyprland+theme"
+    local url="https://api.github.com/search/repositories?q=$query&sort=stars&order=desc&per_page=5"
+    
+    # Make API request
+    local response
+    response=$(curl -s "$url")
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Error: Failed to fetch themes from GitHub${NC}"
+        return
+    fi
+
+    # Parse and display themes
+    echo -e "${BLUE}Available Hyprland themes:${NC}"
+    local themes
+    themes=$(echo "$response" | jq -r '.items[] | "\(.name) (\(.stargazers_count) stars): \(.html_url)"')
+    if [ -z "$themes" ]; then
+        echo -e "${RED}No themes found${NC}"
+        return
+    fi
+
+    # Display options
+    local i=1
+    declare -A theme_map
+    while IFS= read -r line; do
+        name=$(echo "$line" | cut -d'(' -f1 | xargs)
+        url=$(echo "$line" | cut -d':' -f2- | xargs)
+        echo "$i. $name"
+        theme_map[$i]="$url"
+        ((i++))
+    done <<< "$themes"
+
+    # Prompt user for selection
+    echo -en "${YELLOW}Select a theme (1-$((i-1)) or 0 to skip): ${NC}"
+    read -r choice
+    if [ "$choice" -eq 0 ] || [ -z "$choice" ]; then
+        echo -e "${BLUE}Skipping theme installation${NC}"
+        return
+    fi
+
+    # Validate choice
+    if [ -z "${theme_map[$choice]}" ]; then
+        echo -e "${RED}Invalid selection${NC}"
+        return
+    fi
+
+    # Clone selected theme
+    echo -e "${YELLOW}Installing theme from ${theme_map[$choice]}...${NC}"
+    local temp_dir
+    temp_dir=$(mktemp -d)
+    git clone "${theme_map[$choice]}" "$temp_dir" || {
+        echo -e "${RED}Error: Failed to clone theme${NC}"
+        rm -rf "$temp_dir"
+        return
+    }
+
+    # Copy hyprland.conf if exists
+    if [ -f "$temp_dir/hyprland.conf" ]; then
+        cp "$temp_dir/hyprland.conf" /etc/skel/.config/hypr/hyprland.conf
+        echo -e "${GREEN}Hyprland configuration from theme applied${NC}"
+    else
+        echo -e "${YELLOW}Warning: No hyprland.conf found in theme${NC}"
+    fi
+
+    # Clean up
+    rm -rf "$temp_dir"
+    echo -e "${GREEN}Theme installation complete${NC}"
 }
 
 # Main execution
 main() {
-    echo -e "${GREEN}Starting Hyprland installation...${NC}"
+    echo -e "${GREEN}Starting HyprArch installation...${NC}"
     
+    check_connectivity
+    configure_nvidia
     install_packages
     setup_configs
+    fetch_themes
     
     echo -e "${GREEN}[+] Installation complete!${NC}"
     echo -e "Default configurations created in /etc/skel/.config/"
-    echo -e "For new users, these files will be copied to their home directory"
+    echo -e "For new users, these files will be copied to their home directory."
 }
 
 main "$@"

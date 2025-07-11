@@ -1,4 +1,3 @@
-```
 #!/bin/bash
 # HyprArch All-in-One Installer
 # Licença: GPLv3
